@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="utf-8">
+		<title>Título da página</title>
+	</head>
+
+	<body>
+
+		<form>
+			<input type="hidden" name="id" value="<?=$id?>">
+			Nome: <input name="game" value="<?=$game?>">
+			<br />
+			Nota: <input name="nota" value="<?=$nota?>">
+			<br />
+			<button name="acao" value="<?=$acao?>"><?=$acao?></button>
+		</form>
+
+		<table border="1">
+			<tr>
+				<td>ID</td>
+				<td>Game</td>
+				<td>Nota</td>
+				<td colspan="2">Ação</td>
+			</tr>
+
+			<?php foreach($arrayCadastro as $cadastro) { ?>
+
+				<tr>
+					<td><?=$cadastro['id']?></td>
+					<td><?=$cadastro['game']?></td>
+					<td><?=$cadastro['nota']?></td>
+					<td><a href="?acao=Remover&id=<?=$cadastro['id']?>">Remover</a></td>
+					<td><a href="?acao=Consultar&id=<?=$cadastro['id']?>">Consultar</a></td>
+
+				</tr>
+
+			<?php }	?>
+
+
+		</table>
+
+	</body>
+
+</html>
