@@ -1,0 +1,38 @@
+<?php
+
+	function recebePar($par) {
+		return $_GET[$par];
+	}
+	function existePar($par) {
+		return isset($_GET[$par]);
+	}
+	function testePar($par,$valor) {
+		if (!existePar($par)) return false;
+		return recebePar($par) == $valor;
+	}
+
+	include './model.php';
+
+	$game = "";
+	$id = "";
+	$nota = "";
+	$acao = "Inserisci";
+
+	if (testePar('acao','Cadastrar')) {
+		insereDados(recebePar('game'),recebePar('nota'));
+	} else if(testePar('acao','Remover')) {
+		removeDados(recebePar('id'));
+	} else if(testePar('acao','Editar')) {
+		editaDados(recebePar('id'),recebePar('game'),recebePar('nota'));
+	} else if(testePar('acao','Consultar')) {
+		$dados = obterDadosId(recebePar('id'));
+		$id = $dados[0]['id'];
+		$nome = $dados[0]['game'];
+		$nota = $dados[0]['nota'];
+		$acao = "Modifica";
+	}
+
+	$arrayCadastro = obterDados();	
+
+	include './view.php'
+?>
