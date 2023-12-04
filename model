@@ -1,0 +1,67 @@
+<?php
+
+	function estabelecerConexao() {
+		$host = "localhost";
+		$usuario = "root";
+		$senha = "";
+		$banco = "gamephp";
+		$porta = 3306;
+		try {
+			$conexao = new PDO("mysql:host=$host;porta=$porta;dbname=$banco",$usuario,$senha);
+		} catch(PDOException $e) {
+			die("Ai Ai Ai Abbiamo un Errorino");
+		}
+		return $conexao;
+
+	}
+
+	function obterDados() {
+		$conexao = estabelecerConexao();
+		$sql = "SELECT id,game,nota FROM notas";
+		$consulta = $conexao->prepare($sql);
+		$consulta->execute();
+		$dados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+		return $dados;
+	}
+
+	function obterDadosId($id) {
+		$conexao = estabelecerConexao();
+		$sql = "SELECT id,game,nota FROM notas WHERE id = :id";
+		$consulta = $conexao->prepare($sql);
+		$consulta->bindParam(':id',$id);
+		$consulta->execute();
+		$dados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+		return $dados;
+	}
+
+
+	function insereDados($game,$nota) {
+		$conexao = estabelecerConexao();
+		$sql = "INSERT INTO notas (game,nota)" .
+			  "VALUES(:game,:nota)";
+		$consulta = $conexao->prepare($sql);
+		$consulta->bindParam(':game',$game);
+		$consulta->bindParam(':nota',$nota);
+		$consulta->execute();
+	}
+
+	function removeDados($id) {
+		$conexao = estabelecerConexao();
+		$sql = "DELETE FROM notas WHERE id = :id";
+		$consulta = $conexao->prepare($sql);
+		$consulta->bindParam(':id',$id);
+		$consulta->execute();
+	}
+
+	function editaDados($id,$game,$nota) {
+		$conexao = estabelecerConexao();
+		$sql = "UPDATE notas set game=:game, nota=:nota WHERE id = :id";
+		$consulta = $conexao->prepare($sql);
+		$consulta->bindParam(':id',$id);
+		$consulta->bindParam(':game',$game);
+		$consulta->bindParam(':nota',$nota);
+		$consulta->execute();
+	}
+
+
+?>
